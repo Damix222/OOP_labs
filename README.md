@@ -3,7 +3,7 @@
 # Лабораторная работа №1
 
 ## model.py
-
+```python
 class Product:
     shop_name = 'Магазин Электроники'
     max_discount = 90
@@ -165,9 +165,10 @@ class Product:
 
     def deactivate(self):
         self._is_active = False
-
+```
 ## demo.py
 
+```python
 from model import Product
 
 
@@ -283,7 +284,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+```
 ## Результат
 ![01](/images/lab01/01.png)
 ![02](/images/lab01/02.png)
