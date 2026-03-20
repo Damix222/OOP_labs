@@ -1,68 +1,23 @@
+from validate import (
+    validate_name,
+    validate_price,
+    validate_stock,
+    validate_category,
+    validate_discount,
+)
+
+
 class Product:
     shop_name = 'Магазин Электроники'
     max_discount = 90
 
     def __init__(self, name, price, stock, category, discount=0):
-        self._name = self._validate_name(name)
-        self._price = self._validate_price(price)
-        self._stock = self._validate_stock(stock)
-        self._category = self._validate_category(category)
-        self._discount = self._validate_discount(discount)
-        self._is_active = True
-
-    def _validate_name(self, value):
-        if not isinstance(value, str):
-            raise TypeError('Название должно быть строкой')
-
-        value = value.strip()
-
-        if value == '':
-            raise ValueError('Название не должно быть пустым')
-
-        if len(value) < 2:
-            raise ValueError('Название должно содержать минимум 2 символа')
-
-        return value
-
-    def _validate_price(self, value):
-        if isinstance(value, bool) or not isinstance(value, (int, float)):
-            raise TypeError('Цена должна быть числом')
-
-        if value <= 0:
-            raise ValueError('Цена должна быть больше 0')
-
-        return float(value)
-
-    def _validate_stock(self, value):
-        if isinstance(value, bool) or not isinstance(value, int):
-            raise TypeError('Количество должно быть целым числом')
-
-        if value < 0:
-            raise ValueError('Количество не может быть отрицательным')
-
-        return value
-
-    def _validate_category(self, value):
-        if not isinstance(value, str):
-            raise TypeError('Категория должна быть строкой')
-
-        value = value.strip()
-
-        if value == '':
-            raise ValueError('Категория не должна быть пустой')
-
-        return value
-
-    def _validate_discount(self, value):
-        if isinstance(value, bool) or not isinstance(value, (int, float)):
-            raise TypeError('Скидка должна быть числом')
-
-        value = float(value)
-
-        if value < 0 or value > self.max_discount:
-            raise ValueError(f'Скидка должна быть от 0 до {self.max_discount}')
-
-        return value
+        self._name = validate_name(name)
+        self._price = validate_price(price)
+        self._stock = validate_stock(stock)
+        self._category = validate_category(category)
+        self._discount = validate_discount(discount, self.max_discount)
+        self._is_active = self._stock > 0
 
     @property
     def name(self):
@@ -74,7 +29,7 @@ class Product:
 
     @price.setter
     def price(self, value):
-        self._price = self._validate_price(value)
+        self._price = validate_price(value)
 
     @property
     def stock(self):
@@ -90,7 +45,7 @@ class Product:
 
     @discount.setter
     def discount(self, value):
-        self._discount = self._validate_discount(value)
+        self._discount = validate_discount(value, self.max_discount)
 
     @property
     def is_active(self):
@@ -102,7 +57,7 @@ class Product:
             f'Товар: {self._name}\n'
             f'Категория: {self._category}\n'
             f'Обычная цена: {self._price:.2f} руб.\n'
-            f'Скидка: {self._discount}%\n'
+            f'Скидка: {self._discount:.1f}%\n'
             f'Цена со скидкой: {self.final_price():.2f} руб.\n'
             f'Количество: {self._stock} шт.\n'
             f'Статус: {status}'
@@ -121,7 +76,10 @@ class Product:
         return (
             self._name == other._name
             and self._price == other._price
+            and self._stock == other._stock
             and self._category == other._category
+            and self._discount == other._discount
+            and self._is_active == other._is_active
         )
 
     def final_price(self):
