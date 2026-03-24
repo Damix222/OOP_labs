@@ -117,3 +117,12 @@ class Product:
 
     def deactivate(self):
         self._is_active = False
+
+
+#
+
+
+product1 = Product('gjhdfjgdl', 64543765446356474673, 65, 'hjfhhfjhdhjdfhjhdgdffgdjhgdjhgfej', 89)
+print(product1)
+product1.add_stock(10)
+print(product1)
