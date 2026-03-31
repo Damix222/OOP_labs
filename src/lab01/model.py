@@ -1,4 +1,4 @@
-from validate import (
+from src.lab01.validate import (
     validate_name,
     validate_price,
     validate_stock,
@@ -119,10 +119,3 @@ class Product:
         self._is_active = False
 
 
-#
-
-
-product1 = Product('gjhdfjgdl', 64543765446356474673, 65, 'hjfhhfjhdhjdfhjhdgdffgdjhgdjhgfej', 89)
-print(product1)
-product1.add_stock(10)
-print(product1)
