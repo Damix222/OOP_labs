@@ -1,4 +1,4 @@
-from src.lab01.model import Product
+from src.lib.model import Product
 
 
 class ProductCatalog:
@@ -108,3 +108,4 @@ class ProductCatalog:
                 f'Активен: {item.is_active}'
             )
         return '\n'.join(lines)
+    

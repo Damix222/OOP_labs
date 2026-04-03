@@ -1,4 +1,4 @@
-from src.lab01.model import Product
+from src.lib.model import Product
 from src.lab02.collection import ProductCatalog
 
 
@@ -10,6 +10,8 @@ def main():
 
     catalog = ProductCatalog()
 
+
+
     print('\nСценарий 1. Добавление товаров в каталог\n')
     catalog.add(laptop)
     catalog.add(mouse)
@@ -20,6 +22,8 @@ def main():
     print()
     print('Количество товаров в каталоге:', len(catalog))
     print()
+
+
 
     print('\nСценарий 2. Поиск, цикл, индексация\n')
 
@@ -36,6 +40,8 @@ def main():
     print('Индексация:')
     print(catalog[0])
     print()
+
+
 
     print('\nСценарий 3. Сортировка и фильтрация\n')
 
@@ -59,6 +65,8 @@ def main():
     print(accessories)
     print()
 
+
+
     print('\nСценарий 4. Удаление товара\n')
     catalog.remove(mouse)
     print('После удаления мыши:')
@@ -69,6 +77,8 @@ def main():
     catalog.remove_at(0)
     print(catalog)
     print()
+
+
 
     print('\nСценарий 5. Проверки ограничений\n')
 
