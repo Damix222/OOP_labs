@@ -4,9 +4,7 @@ from src.lab03.models import DigitalProduct, Service, Accessory
 
 
 def print_title(title):
-    print(f'\n{"=" * 15} {title} {"=" * 15}')
-
-
+    print(f'\n--- {title} ---')
 catalog = ProductCatalog()
 
 mouse = Product(
