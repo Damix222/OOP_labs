@@ -60,7 +60,7 @@ for item in catalog:
 
 # Сценарий 2. Методы базового и дочерних классов
 print_title('Методы')
-print(f'{mouse.name}: final_price() = {mouse.final_price():.2f} руб.')
+print(f'{mouse.name}: финальная цена = {mouse.final_price():.2f} руб.')
 print(windows.activate_license())
 print(repair.book_service())
 print(headphones.connect())
