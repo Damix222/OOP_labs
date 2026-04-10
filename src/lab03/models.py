@@ -61,10 +61,6 @@ class DigitalProduct(Product):
         )
 
     def calculate_total(self):
-        """
-        Для цифрового товара делаем дополнительную онлайн-скидку 5%.
-        Это нужно для демонстрации полиморфизма.
-        """
         return self.final_price() * 0.95
 
     def __str__(self):
