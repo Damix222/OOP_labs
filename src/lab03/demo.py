@@ -66,8 +66,8 @@ print(repair.book_service())
 print(headphones.connect())
 
 
-# Сценарий 3. Полиморфизм
-print_title('Полиморфизм через calculate_total()')
+# Сценарий 3. Полиморфизм через calculate_total()
+print_title('Полиморфизм')
 for item in catalog:
     print(f'{item.name}: {item.calculate_total():.2f} руб.')
 

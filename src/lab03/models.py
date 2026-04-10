@@ -1,11 +1,11 @@
 from src.lab03.base import Product
-
+from src.lib.normalize import normalize
 
 def validate_text(value, field_name):
     if not isinstance(value, str):
         raise TypeError(f'{field_name} должно быть строкой')
 
-    value = value.strip()
+    value = normalize(value, casefold=False, yo2e=False)
 
     if value == '':
         raise ValueError(f'{field_name} не должно быть пустым')
