@@ -84,6 +84,27 @@ class ProductCatalog:
 
         return sorted_catalog
 
+    def sort_by_sortable(self, reverse=False):
+        from src.lab04.interfaces import Sortable
+
+        sorted_catalog = ProductCatalog()
+        sortable_items = []
+
+        for item in self._items:
+            if isinstance(item, Sortable):
+                sortable_items.append(item)
+
+        sorted_items = sorted(
+            sortable_items,
+            key=lambda item: item.sort_key(),
+            reverse=reverse
+        )
+
+        for item in sorted_items:
+            sorted_catalog.add(item)
+
+        return sorted_catalog
+
     def get_active(self):
         result = ProductCatalog()
 
@@ -133,6 +154,30 @@ class ProductCatalog:
     def get_only_services(self):
         from src.lab03.models import Service
         return self.get_by_type(Service)
+
+    def get_by_interface(self, interface_type):
+        if not isinstance(interface_type, type):
+            raise TypeError('Нужно передать интерфейс')
+
+        result = ProductCatalog()
+
+        for item in self._items:
+            if isinstance(item, interface_type):
+                result.add(item)
+
+        return result
+
+    def get_printable(self):
+        from src.lab04.interfaces import Printable
+        return self.get_by_interface(Printable)
+
+    def get_actionable(self):
+        from src.lab04.interfaces import Actionable
+        return self.get_by_interface(Actionable)
+
+    def get_sortable(self):
+        from src.lab04.interfaces import Sortable
+        return self.get_by_interface(Sortable)
 
     def __len__(self):
         return len(self._items)
