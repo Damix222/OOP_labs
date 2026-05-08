@@ -21,299 +21,226 @@ from src.lab05.strategies import (
 )
 
 
-def print_title(title):
-    print('\n' + '=' * 70)
-    print(title)
-    print('=' * 70)
+def print_catalog(catalog):
+    for item in catalog:
+        print(
+            f'{item.name} | '
+            f'{item.category} | '
+            f'Цена: {item.price:.2f} руб. | '
+            f'Остаток: {item.stock} | '
+            f'Активен: {item.is_active}'
+        )
 
 
-def print_catalog(title, catalog):
-    print_title(title)
-    print(catalog)
+def print_list(items):
+    for item in items:
+        print(item)
 
 
-def print_list(title, items):
-    print_title(title)
+def main():
+    digital_1 = DigitalProduct(
+        name='Windows 11 Pro',
+        price=12000,
+        stock=5,
+        category='ПО',
+        discount=10,
+        file_size_mb=5000,
+        license_type='Профессиональная'
+    )
 
-    if not items:
-        print('Список пуст')
-        return
+    digital_2 = DigitalProduct(
+        name='Антивирус Pro',
+        price=3500,
+        stock=15,
+        category='ПО',
+        discount=5,
+        file_size_mb=250,
+        license_type='Годовая'
+    )
 
-    for i, item in enumerate(items, start=1):
-        print(f'{i}. {item}')
+    service_1 = Service(
+        name='Настройка ноутбука',
+        price=2500,
+        stock=10,
+        category='Услуги',
+        discount=0,
+        duration_hours=2,
+        on_site=True
+    )
 
+    service_2 = Service(
+        name='Чистка системы',
+        price=1800,
+        stock=0,
+        category='Услуги',
+        discount=0,
+        duration_hours=1.5,
+        on_site=False
+    )
 
-def create_catalog():
+    accessory_1 = Accessory(
+        name='Беспроводная мышь',
+        price=2400,
+        stock=20,
+        category='Аксессуары',
+        discount=15,
+        compatibility='ПК и ноутбук',
+        wireless=True
+    )
+
+    accessory_2 = Accessory(
+        name='USB-C кабель',
+        price=800,
+        stock=35,
+        category='Аксессуары',
+        discount=0,
+        compatibility='USB-C устройства',
+        wireless=False
+    )
+
+    items = [
+        digital_1,
+        digital_2,
+        service_1,
+        service_2,
+        accessory_1,
+        accessory_2,
+    ]
+
     catalog = ProductCatalog()
 
-    catalog.add(
-        DigitalProduct(
-            name='Windows 11 Pro',
-            price=12000,
-            stock=5,
-            category='ПО',
-            discount=10,
-            file_size_mb=5000,
-            license_type='Профессиональная'
-        )
-    )
+    for item in items:
+        catalog.add(item)
 
-    catalog.add(
-        DigitalProduct(
-            name='Антивирус Pro',
-            price=3500,
-            stock=15,
-            category='ПО',
-            discount=5,
-            file_size_mb=250,
-            license_type='Годовая'
-        )
-    )
+    print('=' * 70)
+    print('СЦЕНАРИЙ 1. Исходная коллекция товаров')
+    print('=' * 70)
+    print_catalog(catalog)
 
-    catalog.add(
-        Service(
-            name='Настройка ноутбука',
-            price=2500,
-            stock=10,
-            category='Услуги',
-            discount=0,
-            duration_hours=2,
-            on_site=True
-        )
-    )
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 2. Сортировка разными стратегиями')
+    print('=' * 70)
 
-    catalog.add(
-        Service(
-            name='Чистка системы',
-            price=1800,
-            stock=0,
-            category='Услуги',
-            discount=0,
-            duration_hours=1.5,
-            on_site=False
-        )
-    )
+    print('\n--- Сортировка по названию ---')
+    print_catalog(catalog.sort_by(by_name))
 
-    catalog.add(
-        Accessory(
-            name='Беспроводная мышь',
-            price=2400,
-            stock=20,
-            category='Аксессуары',
-            discount=15,
-            compatibility='ПК и ноутбук',
-            wireless=True
-        )
-    )
+    print('\n--- Сортировка по цене ---')
+    print_catalog(catalog.sort_by(by_price))
 
-    catalog.add(
-        Accessory(
-            name='USB-C кабель',
-            price=800,
-            stock=35,
-            category='Аксессуары',
-            discount=0,
-            compatibility='USB-C устройства',
-            wireless=False
-        )
-    )
+    print('\n--- Сортировка по категории и названию ---')
+    print_catalog(catalog.sort_by(by_category_and_name))
 
-    return catalog
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 3. Фильтрация коллекции')
+    print('=' * 70)
 
+    print('\n--- Только товары в наличии ---')
+    print_catalog(catalog.filter_by(is_available))
 
-def scenario_sorting(catalog):
-    print_catalog(
-        'Сортировка по названию',
-        catalog.sort_by(by_name)
-    )
+    print('\n--- Только дорогие товары ---')
+    print_catalog(catalog.filter_by(is_expensive))
 
-    print_catalog(
-        'Сортировка по цене',
-        catalog.sort_by(by_price)
-    )
+    print('\n--- Только цифровые товары ---')
+    print_catalog(catalog.filter_by(is_digital_product))
 
-    print_catalog(
-        'Сортировка по категории и названию',
-        catalog.sort_by(by_category_and_name)
-    )
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 4. Применение map()')
+    print('=' * 70)
 
-
-def scenario_filtering(catalog):
-    print_catalog(
-        'Фильтрация: только товары в наличии',
-        catalog.filter_by(is_available)
-    )
-
-    print_catalog(
-        'Фильтрация: дорогие товары',
-        catalog.filter_by(is_expensive)
-    )
-
-    print_catalog(
-        'Фильтрация: только цифровые товары',
-        catalog.filter_by(is_digital_product)
-    )
-
-
-def scenario_map_and_factory(catalog):
     names = list(map(get_name, catalog))
-
-    print_list(
-        'map(): получение названий товаров',
-        names
-    )
+    print('\n--- Названия товаров ---')
+    print_list(names)
 
     short_strings = list(map(to_short_string, catalog))
-
-    print_list(
-        'map(): преобразование товаров в строки',
-        short_strings
-    )
+    print('\n--- Товары в виде строк ---')
+    print_list(short_strings)
 
     dicts = list(map(to_dict, catalog))
+    print('\n--- Товары в виде словарей ---')
+    print_list(dicts)
 
-    print_list(
-        'map(): преобразование товаров в словари',
-        dicts
-    )
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 5. Использование фабрик функций')
+    print('=' * 70)
 
     cheap_filter = make_price_filter(3000)
-
-    print_catalog(
-        'Фабрика функций: товары дешевле или равные 3000 руб.',
-        catalog.filter_by(cheap_filter)
-    )
+    print('\n--- Товары дешевле или равные 3000 руб. ---')
+    print_catalog(catalog.filter_by(cheap_filter))
 
     software_filter = make_category_filter('по')
-
-    print_catalog(
-        'Фабрика функций с normalize(): товары из категории ПО',
-        catalog.filter_by(software_filter)
-    )
+    print('\n--- Товары из категории ПО ---')
+    print_catalog(catalog.filter_by(software_filter))
 
     discount_20 = make_discount_function(20)
+    print('\n--- Цена с дополнительной скидкой 20% ---')
+    prices_with_discount = catalog.apply(discount_20)
 
-    print_list(
-        'Фабрика функций: расчёт цены с дополнительной скидкой 20%',
-        catalog.apply(discount_20)
-    )
+    for price in prices_with_discount:
+        print(f'{price:.2f} руб.')
 
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 6. Сравнение lambda и именованной функции')
+    print('=' * 70)
 
-def scenario_lambda_vs_named_function(catalog):
-    named_result = catalog.sort_by(by_name)
+    print('\n--- Сортировка через именованную функцию by_name ---')
+    print_catalog(catalog.sort_by(by_name))
 
-    lambda_result = catalog.sort_by(
-        lambda item: normalize(item.name)
-    )
+    print('\n--- Такая же сортировка через lambda ---')
+    print_catalog(catalog.sort_by(lambda item: normalize(item.name)))
 
-    print_catalog(
-        'Сортировка через именованную функцию by_name',
-        named_result
-    )
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 7. Цепочка filter → sort → apply')
+    print('=' * 70)
 
-    print_catalog(
-        'Та же сортировка через lambda',
-        lambda_result
-    )
-
-
-def scenario_chain(catalog):
-    print_title('Сценарий 1: цепочка filter → sort → apply')
-
-    step_1 = catalog.filter_by(is_available)
-    print('\nШаг 1. Оставили только товары в наличии:')
-    print(step_1)
-
-    step_2 = step_1.sort_by(by_price)
-    print('\nШаг 2. Отсортировали товары по цене:')
-    print(step_2)
-
-    discount_strategy = DiscountStrategy(10)
-    step_3 = step_2.apply(discount_strategy)
-
-    print('\nШаг 3. Применили стратегию дополнительной скидки 10%:')
-    for i, price in enumerate(step_3, start=1):
-        print(f'{i}. Цена после дополнительной скидки: {price:.2f} руб.')
+    discount_10 = DiscountStrategy(10)
 
     result = (
         catalog
         .filter_by(is_available)
         .sort_by(by_price)
-        .apply(discount_strategy)
+        .apply(discount_10)
     )
 
-    print('\nИтог той же цепочки в одной записи:')
-    for i, price in enumerate(result, start=1):
-        print(f'{i}. {price:.2f} руб.')
+    print('\n--- Итог после filter_by → sort_by → apply ---')
+    for price in result:
+        print(f'{price:.2f} руб.')
 
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 8. Замена стратегии без изменения кода коллекции')
+    print('=' * 70)
 
-def scenario_strategy_replacement(catalog):
-    print_title('Сценарий 2: замена стратегии без изменения кода коллекции')
+    print('\n--- Стратегия 1: сортировка по обычной цене ---')
+    print_catalog(catalog.sort_by(by_price))
 
-    price_sorted = catalog.sort_by(by_price)
+    print('\n--- Стратегия 2: сортировка по итоговой стоимости ---')
+    print_catalog(catalog.sort_by(by_total_price))
 
-    print('\nСтратегия 1: сортировка по обычной цене')
-    print(price_sorted)
+    print('\n--- Стратегия 3: сортировка по категории и названию ---')
+    print_catalog(catalog.sort_by(by_category_and_name))
 
-    total_price_sorted = catalog.sort_by(by_total_price)
+    print('\n' + '=' * 70)
+    print('СЦЕНАРИЙ 9. Callable-объекты как стратегии')
+    print('=' * 70)
 
-    print('\nСтратегия 2: сортировка по итоговой стоимости')
-    print(total_price_sorted)
-
-    category_sorted = catalog.sort_by(by_category_and_name)
-
-    print('\nСтратегия 3: сортировка по категории и названию')
-    print(category_sorted)
-
-
-def scenario_callable_object(catalog):
-    print_title('Сценарий 3: callable-объекты как стратегии')
-
-    discount_10 = DiscountStrategy(10)
     discount_25 = DiscountStrategy(25)
     total_price_strategy = TotalPriceStrategy()
     short_info_strategy = ShortInfoStrategy()
 
-    print('\nDiscountStrategy(10):')
-    prices_10 = catalog.apply(discount_10)
+    print('\n--- DiscountStrategy(25) ---')
+    discounted_prices = catalog.apply(discount_25)
 
-    for i, price in enumerate(prices_10, start=1):
-        print(f'{i}. {price:.2f} руб.')
+    for price in discounted_prices:
+        print(f'{price:.2f} руб.')
 
-    print('\nDiscountStrategy(25):')
-    prices_25 = catalog.apply(discount_25)
+    print('\n--- TotalPriceStrategy() ---')
+    total_prices = catalog.apply(total_price_strategy)
 
-    for i, price in enumerate(prices_25, start=1):
-        print(f'{i}. {price:.2f} руб.')
+    for price in total_prices:
+        print(f'{price:.2f} руб.')
 
-    print('\nTotalPriceStrategy():')
-    totals = catalog.apply(total_price_strategy)
-
-    for i, price in enumerate(totals, start=1):
-        print(f'{i}. {price:.2f} руб.')
-
-    print('\nShortInfoStrategy():')
-    info = catalog.apply(short_info_strategy)
-
-    for i, text in enumerate(info, start=1):
-        print(f'{i}. {text}')
-
-
-def main():
-    catalog = create_catalog()
-
-    print_catalog(
-        'Исходная коллекция товаров',
-        catalog
-    )
-
-    scenario_sorting(catalog)
-    scenario_filtering(catalog)
-    scenario_map_and_factory(catalog)
-    scenario_lambda_vs_named_function(catalog)
-    scenario_chain(catalog)
-    scenario_strategy_replacement(catalog)
-    scenario_callable_object(catalog)
+    print('\n--- ShortInfoStrategy() ---')
+    short_info = catalog.apply(short_info_strategy)
+    print_list(short_info)
 
 
 if __name__ == '__main__':
