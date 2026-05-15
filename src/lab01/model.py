@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from src.lab01.validate import (
     validate_name,
     validate_price,
@@ -8,50 +10,57 @@ from src.lab01.validate import (
 
 
 class Product:
-    shop_name = 'Магазин Электроники'
-    max_discount = 90
+    shop_name: str = 'Магазин Электроники'
+    max_discount: int = 90
 
-    def __init__(self, name, price, stock, category, discount=0):
-        self._name = validate_name(name)
-        self._price = validate_price(price)
-        self._stock = validate_stock(stock)
-        self._category = validate_category(category)
-        self._discount = validate_discount(discount, self.max_discount)
-        self._is_active = self._stock > 0
+    def __init__(
+        self,
+        name: str,
+        price: int | float,
+        stock: int,
+        category: str,
+        discount: int | float = 0,
+    ) -> None:
+        self._name: str = validate_name(name)
+        self._price: float = validate_price(price)
+        self._stock: int = validate_stock(stock)
+        self._category: str = validate_category(category)
+        self._discount: float = validate_discount(discount, self.max_discount)
+        self._is_active: bool = self._stock > 0
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @property
-    def price(self):
+    def price(self) -> float:
         return self._price
 
     @price.setter
-    def price(self, value):
+    def price(self, value: int | float) -> None:
         self._price = validate_price(value)
 
     @property
-    def stock(self):
+    def stock(self) -> int:
         return self._stock
 
     @property
-    def category(self):
+    def category(self) -> str:
         return self._category
 
     @property
-    def discount(self):
+    def discount(self) -> float:
         return self._discount
 
     @discount.setter
-    def discount(self, value):
+    def discount(self, value: int | float) -> None:
         self._discount = validate_discount(value, self.max_discount)
 
     @property
-    def is_active(self):
+    def is_active(self) -> bool:
         return self._is_active
 
-    def __str__(self):
+    def __str__(self) -> str:
         status = 'активен' if self._is_active else 'неактивен'
         return (
             f'Товар: {self._name}\n'
@@ -63,13 +72,13 @@ class Product:
             f'Статус: {status}'
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             f"Product(name='{self._name}', price={self._price}, stock={self._stock}, "
             f"category='{self._category}', discount={self._discount}, is_active={self._is_active})"
         )
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, Product):
             return False
 
@@ -82,10 +91,10 @@ class Product:
             and self._is_active == other._is_active
         )
 
-    def final_price(self):
+    def final_price(self) -> float:
         return self._price * (1 - self._discount / 100)
 
-    def add_stock(self, amount):
+    def add_stock(self, amount: int) -> None:
         if isinstance(amount, bool) or not isinstance(amount, int):
             raise TypeError('Добавляемое количество должно быть целым числом')
 
@@ -97,7 +106,7 @@ class Product:
         if self._stock > 0:
             self._is_active = True
 
-    def buy(self, amount):
+    def buy(self, amount: int) -> None:
         if not self._is_active:
             raise ValueError('Нельзя купить неактивный товар')
 
@@ -115,7 +124,11 @@ class Product:
         if self._stock == 0:
             self._is_active = False
 
-    def deactivate(self):
+    def deactivate(self) -> None:
         self._is_active = False
 
+    def display(self) -> str:
+        return str(self)
 
+    def score(self) -> float:
+        return self.final_price()

@@ -1,4 +1,4 @@
-def validate_name(value):
+def validate_name(value: object) -> str:
     if not isinstance(value, str):
         raise TypeError('Название должно быть строкой')
 
@@ -13,7 +13,7 @@ def validate_name(value):
     return value
 
 
-def validate_price(value):
+def validate_price(value: object) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise TypeError('Цена должна быть числом')
 
@@ -23,7 +23,7 @@ def validate_price(value):
     return float(value)
 
 
-def validate_stock(value):
+def validate_stock(value: object) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
         raise TypeError('Количество должно быть целым числом')
 
@@ -33,7 +33,7 @@ def validate_stock(value):
     return value
 
 
-def validate_category(value):
+def validate_category(value: object) -> str:
     if not isinstance(value, str):
         raise TypeError('Категория должна быть строкой')
 
@@ -45,7 +45,7 @@ def validate_category(value):
     return value
 
 
-def validate_discount(value, max_discount):
+def validate_discount(value: object, max_discount: int | float) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise TypeError('Скидка должна быть числом')
 
