@@ -337,6 +337,10 @@ def load(filepath: str) -> tuple[list[ProductItem], dict[str, str]]:
 
 ---
 
+## Демонстрация работы CLI
+
+[![asciicast](https://asciinema.org/a/Damix.svg)](https://asciinema.org/a/Damix)
+
 ## Вывод
 
 Вывод
